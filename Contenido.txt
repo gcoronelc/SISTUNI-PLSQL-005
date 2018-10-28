@@ -11,5 +11,7 @@ CLASE 01
 - Fndamentos de PL/SQL: Bloque anónimo, funcion, procedimiento
 - Variables
 - %TYPE
+- IF
+
 
 

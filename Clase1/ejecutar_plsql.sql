@@ -95,6 +95,8 @@ END;
 -- T2: Desarrollar un procedimiento que retorne de una cuenta
 --     su saldo y el nombre de la moneda. EUREKA.
 
+-- T3: Ejercicios 5.1, 5.2 y 5.3
+
 
 
 

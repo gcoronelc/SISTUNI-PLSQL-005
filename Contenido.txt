@@ -3,4 +3,9 @@ CLASE 01
 - Contexto
 - Instalación de Git
 - Clonar repositorio
+- Introduccion Oracle
+- Conexion con SQL*Plus
+- Identificación de Parametros Fundamentales
+- Conexión con SQLDBX.
+- Esquemas Ejemplo
 - 

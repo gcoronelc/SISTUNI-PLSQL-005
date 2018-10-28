@@ -8,4 +8,8 @@ CLASE 01
 - Identificación de Parametros Fundamentales
 - Conexión con SQLDBX.
 - Esquemas Ejemplo
-- 
+- Fndamentos de PL/SQL: Bloque anónimo, funcion, procedimiento
+- Variables
+- %TYPE
+
+

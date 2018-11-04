@@ -1,0 +1,22 @@
+-- ===================================
+-- TAREA PARA LA CASA.
+-- ===================================
+
+Hacer UN procedimiento acepte una cadena
+de varios empleados, y los inserte en la
+tabla SCOTT.EMP.
+
+Los campos deben estar separados por la
+barra vetical (|):
+
+2345|PEDRO|5600
+
+Las filas deben estar separadas por coditos:
+
+2345|PEDRO|5600¬6578|GUSTAVO|7890¬6534|NADIA|15000
+
+
+
+
+
+

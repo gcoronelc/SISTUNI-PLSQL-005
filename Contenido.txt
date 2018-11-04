@@ -18,7 +18,13 @@ CLASE 02
 - Estructura CASE
 - Estructura LOOP
 - Estructura WHILE
-- 
+- Estructura FOR
+- Sequence
+- Tablas Temporales
+- Excepciones
+- Transacciones
+- Demo Transacciones
+
 
 
 

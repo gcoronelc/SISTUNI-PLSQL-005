@@ -13,5 +13,13 @@ CLASE 01
 - %TYPE
 - IF
 
+CLASE 02
+=======================================
+- Estructura CASE
+- Estructura LOOP
+- Estructura WHILE
+- 
+
+
 
 

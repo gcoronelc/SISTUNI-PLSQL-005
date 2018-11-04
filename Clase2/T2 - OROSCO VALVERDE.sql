@@ -1,0 +1,28 @@
+-----------------
+-- TAREA 2
+-----------------
+
+CREATE OR REPLACE FUNCTION SCOTT.FN106 
+(V_EMPNO EMP.EMPNO%TYPE) RETURN VARCHAR2 
+IS
+	V_MSG VARCHAR2(40);
+	V_SAL EMP.SAL%TYPE;
+BEGIN
+	SELECT SAL INTO V_SAL FROM SCOTT.EMP WHERE EMPNO = V_EMPNO;
+	CASE
+		WHEN (V_SAL > 0 AND V_SAL <=2500) THEN
+			V_MSG := 'Salario Bajo';
+		WHEN (V_SAL > 2500 AND V_SAL <=4000) THEN
+			V_MSG := 'Salario Regular';
+		WHEN (V_SAL > 4000 ) THEN
+			V_MSG := 'Salario Bueno';
+		ELSE
+			V_MSG := 'Caso Desconocido';
+	END CASE;
+	V_MSG := TO_CHAR(V_SAL) || ' _ ' || V_MSG;
+	RETURN V_MSG;
+END;		
+
+SELECT SCOTT.FN106 (7839) FROM DUAL;
+
+SELECT * FROM EMP;

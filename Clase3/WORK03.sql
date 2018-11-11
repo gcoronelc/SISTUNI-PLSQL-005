@@ -1,0 +1,158 @@
+CREATE OR REPLACE PROCEDURE SCOTT.PR114
+IS    
+	CURSOR C_DEMO IS SELECT * FROM DEPT WHERE DNAME = 'ABCXYZ';
+	R DEPT%ROWTYPE;
+	RESULTADO BOOLEAN;
+BEGIN
+	OPEN C_DEMO;
+  	FETCH C_DEMO INTO R;	 
+  	RESULTADO := C_DEMO%FOUND;
+  	CLOSE C_DEMO;
+  	
+  	DBMS_OUTPUT.PUT_LINE('FOUND: ' || CASE WHEN RESULTADO THEN '1' ELSE '0' END);
+  	DBMS_OUTPUT.PUT_LINE('DEPTNO: ' || R.DEPTNO);
+  	DBMS_OUTPUT.PUT_LINE('DNAME: ' || R.DNAME);
+  	DBMS_OUTPUT.PUT_LINE('LOC: ' || R.LOC);
+END;
+
+
+BEGIN
+	SCOTT.PR114;
+END;
+
+
+-- -------------------------------------------------------------------------------------------------------
+
+
+CREATE OR REPLACE PROCEDURE SCOTT.PR114
+IS    
+	CURSOR C_DEMO IS SELECT * FROM DEPT ;
+	R DEPT%ROWTYPE;
+	RESULTADO BOOLEAN;
+BEGIN
+	OPEN C_DEMO;
+  	FETCH C_DEMO INTO R;	 
+  	RESULTADO := C_DEMO%NOTFOUND;
+  	CLOSE C_DEMO;
+  	
+  	DBMS_OUTPUT.PUT_LINE('NOTFOUND: ' || CASE WHEN RESULTADO THEN '1' ELSE '0' END);
+  	DBMS_OUTPUT.PUT_LINE('DEPTNO: ' || R.DEPTNO);
+  	DBMS_OUTPUT.PUT_LINE('DNAME: ' || R.DNAME);
+  	DBMS_OUTPUT.PUT_LINE('LOC: ' || R.LOC);
+END;
+
+
+BEGIN
+	SCOTT.PR114;
+END;
+
+
+
+-- -------------------------------------------------------------------------------------------------------
+
+
+
+CREATE OR REPLACE PROCEDURE SCOTT.PR114
+IS    
+	CURSOR C_DEMO IS SELECT * FROM DEPT ;
+	R DEPT%ROWTYPE;
+	RESULTADO BOOLEAN;
+BEGIN
+	OPEN C_DEMO;
+	LOOP
+  		
+  		FETCH C_DEMO INTO R;	 
+  		EXIT WHEN C_DEMO%NOTFOUND;
+  		
+	  	DBMS_OUTPUT.PUT_LINE(R.DEPTNO || ' - ' || R.DNAME || ' - ' || R.LOC);  		
+  	
+  	END LOOP;
+  	CLOSE C_DEMO;
+  	
+END;
+
+
+BEGIN
+	SCOTT.PR114;
+END;
+
+
+
+------------------------------------------------------------------------------------
+
+CREATE OR REPLACE PROCEDURE SCOTT.PR115
+IS    
+	CURSOR C_DEMO IS SELECT * FROM DEPT ;
+	R DEPT%ROWTYPE;
+	RESULTADO BOOLEAN;
+BEGIN
+	OPEN C_DEMO;
+	FETCH C_DEMO INTO R;
+	WHILE C_DEMO%FOUND
+	LOOP
+  		
+	  	DBMS_OUTPUT.PUT_LINE(R.DEPTNO || ' - ' || R.DNAME || ' - ' || R.LOC);  		
+  		FETCH C_DEMO INTO R;
+  		
+  	END LOOP;
+  	CLOSE C_DEMO;
+  	
+END;
+
+
+BEGIN
+	SCOTT.PR115;
+END;
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+CREATE OR REPLACE PROCEDURE SCOTT.PR116
+IS    
+	CURSOR C_DEMO IS SELECT * FROM DEPT ;
+	R DEPT%ROWTYPE;
+BEGIN
+
+	FOR R IN C_DEMO LOOP
+  		
+	  	DBMS_OUTPUT.PUT_LINE(R.DEPTNO || ' - ' || R.DNAME || ' - ' || R.LOC);  		
+  		
+  	END LOOP;
+  	
+END;
+
+
+BEGIN
+	SCOTT.PR116;
+END;
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+CREATE OR REPLACE PROCEDURE SCOTT.PR117
+IS    
+BEGIN
+
+	FOR R IN (SELECT * FROM DEPT) LOOP
+  		
+	  	DBMS_OUTPUT.PUT_LINE(R.DEPTNO || ' - ' || R.DNAME || ' - ' || R.LOC);  		
+  		
+  	END LOOP;
+  	
+END;
+
+
+BEGIN
+	SCOTT.PR117;
+END;
+
+
+
+

@@ -1,0 +1,22 @@
+
+CREATE OR REPLACE PROCEDURE SCOTT.pr112(empno NUMBER)
+IS
+BEGIN
+
+	DELETE FROM SCOTT.emp WHERE empno = pr112.empno;
+
+END;
+
+
+
+BEGIN
+	SCOTT.PR112 (43534534);
+END;
+
+
+SELECT * FROM scott.emp;
+
+ROLLBACK;
+
+
+

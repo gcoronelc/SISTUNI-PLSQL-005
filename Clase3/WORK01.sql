@@ -1,0 +1,44 @@
+
+DECLARE 
+	v_sql VARCHAR2(1000);
+BEGIN
+	v_sql := 'CREATE TABLE algo( dato VARCHAR2(100) )';
+	EXECUTE IMMEDIATE v_sql;
+END;
+
+
+SELECT * FROM SCOTT.EMP;
+
+
+
+DECLARE 
+	V_ENAME VARCHAR2(100);
+BEGIN
+	
+	SELECT ENAME     INTO V_ENAME
+	FROM SCOTT.EMP   WHERE JOB = 'MANAGER';
+	
+	DBMS_OUTPUT.PUT_LINE('ENAME: ' || V_ENAME);
+	
+END;
+
+
+
+
+DECLARE 
+	v_sal NUMBER;
+BEGIN
+	UPDATE scott.emp
+	SET SAL = SAL + 500.0
+	WHERE EMPNO = 7499
+	returning SAL INTO v_sal;
+	
+	dbms_output.PUT_LINE('Nuevo Salario: ' || v_sal);	
+END;
+
+ROLLBACK;
+
+
+
+
+

@@ -25,6 +25,15 @@ CLASE 02
 - Transacciones
 - Demo Transacciones
 
+CLASE 03
+=======================================
+- EXECUTE IMMEDIATE
+- SELECT en PL/SQL
+- NOMBRE DE PARAMETROS Y VARIABLES
+- RETURNING
+- DATABASE LINK
+
+
 
 
 

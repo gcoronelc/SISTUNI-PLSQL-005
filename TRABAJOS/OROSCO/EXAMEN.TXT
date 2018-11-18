@@ -1,0 +1,49 @@
+EXAMEN
+=========================
+
+Presentar una caso
+
+- Explicar el caso
+- Modelar el caso  (ENTIDAD RELACION EN ERWIN)
+- Generar el script
+- Script de carga de datos
+- Programar un Paquete a un CRUD
+- Programar un proceso simple
+- Consulta de resumen de datos
+- Proceso complejo. Procesar varias filas.
+  Ejemplo: factura con varios items
+  
+  
+------------------------
+
+caso botica ejm
+se va a explicar
+cauales son los procesos
+se trae el script para cargar los datos
+luego el crud q son los procesos
+el saldo en soles y dolares
+
+en los cursos hay ejemplos
+SISTUNI-PLSQL-004
+		SQL
+C CREATE	INSERT
+R READ  	SELECT	  
+U UPDATE	UPDATE
+D DELETE	DELETE
+TABLAS
+
+
+EN HR UNA CONSULTA Q ME DE UN RESUMEN DE CUANTOS EMPLEADOS POR PUESTOS DE TRABAJOS HAY EN CADA DEPARTAMENTO
+
+PROCESO SIMPLE: EN HR UN EMPLEADO QUE QUIERA CAMBIAR DE DEPARTAMENTO
+COMPLEJO: EN HR CAMBIAR A UN EMPLEADO DE DEPARTAMENTO XQ TU JEFE INMEDIATO CAMBIARIA
+
+PROCESO SIMPLE AUMENTAR EL SALARIO DE UN EMPLEADO PERO Q NO SALGAD ELA CONDICION DEL PUESTO DEL TRABAJP, Q NO EA MAYOR Q LA DEL JEFE
+
+PROC 	PUBLICO		SOBRECARGA
+FUNC			FUNC Y PROC
+
+PROC	PRIVADOS
+FUNC
+
+PLSQL PARTE 23 PAQUETES  VIDEO DE YOUTUBE

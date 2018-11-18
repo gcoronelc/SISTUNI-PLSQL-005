@@ -1,0 +1,432 @@
+
+
+-- ==========================================================
+-- CREACIÓN DEL ESQUEMA  (USUARIO)
+-- ==========================================================
+
+--ALTER SESSION SET "_ORACLE_SCRIPT"=true;
+CREATE USER DOCUMENTOS IDENTIFIED BY 123
+DEFAULT TABLESPACE USERS;
+
+
+SELECT USERNAME FROM DBA_USERS
+WHERE USERNAME LIKE 'DOCUMENTOS%';
+
+
+-- =========================================
+-- ASIGNAR PRIVILEGIOS
+-- =========================================
+
+GRANT CREATE SESSION TO DOCUMENTOS;
+
+GRANT CREATE TABLE TO DOCUMENTOS;
+
+GRANT CREATE TABLESPACE TO DOCUMENTOS;
+
+
+-- ==========================================================
+--  Tabla tipodocumento
+-- ==========================================================
+CREATE TABLE tipodocumento (
+    idtipodocumento INT NOT NULL,
+    nombre          VARCHAR2(200) NOT NULL,
+    CONSTRAINT pk_tipodocumento PRIMARY KEY ( idtipodocumento )
+);
+
+
+-- ==========================================================
+--  Tabla tipoarchivo
+-- ==========================================================
+CREATE TABLE tipoarchivo (
+    idarchivo INT NOT NULL,
+    nombre    VARCHAR2(200) NOT NULL,
+    CONSTRAINT pk_tipoarchivo PRIMARY KEY ( idarchivo )
+);
+
+
+-- ==========================================================
+--  Tabla area
+-- ==========================================================
+CREATE TABLE area (
+    idarea INT NOT NULL,
+    nombre VARCHAR2(200) NOT NULL,
+    CONSTRAINT pk_area PRIMARY KEY ( idarea )
+);
+
+
+-- ==========================================================
+--  Tabla estado
+-- ==========================================================
+CREATE TABLE estado (
+    idestado INT NOT NULL,
+    nombre VARCHAR2(100) NOT NULL,
+    CONSTRAINT pk_estado PRIMARY KEY ( idestado )
+);
+
+
+-- ==========================================================
+--  Tabla privilegio
+-- ==========================================================
+CREATE TABLE privilegio (
+    idprivilegio INT NOT NULL,
+    nombre VARCHAR2(100) NOT NULL,
+    CONSTRAINT pk_privilegio PRIMARY KEY ( idprivilegio )
+);
+
+
+-- ==========================================================
+--  Tabla jefe
+-- ==========================================================
+CREATE TABLE jefe(
+    idjefe CHAR(8) NOT NULL,
+    nombre VARCHAR2(250) NOT NULL,
+    CONSTRAINT pk_jefe PRIMARY KEY ( idjefe )
+);
+
+
+-- ==========================================================
+--  Tabla usuario
+-- ==========================================================
+CREATE TABLE usuario (
+    idusuario       INT NOT NULL,
+    nombre          VARCHAR2(100) NOT NULL,
+    clave           VARCHAR2(20) NOT NULL,
+    nombrecompleto  VARCHAR2(250) NOT NULL,
+    correo          VARCHAR2(100) NOT NULL,
+    idarea          INT NOT NULL,
+    idjefe          CHAR(8) NOT NULL,        
+    idprivilegio    INT NOT NULL,       
+    idestado        INT NOT NULL,        
+    fecmodificacion DATE,   
+    fecregistro     DATE NOT NULL,            
+    CONSTRAINT pk_usuario PRIMARY KEY ( idusuario ),
+    CONSTRAINT fk_usuario_area FOREIGN KEY ( idarea ) REFERENCES area ( idarea ),
+    CONSTRAINT fk_usuario_jefe FOREIGN KEY ( idjefe ) REFERENCES jefe ( idjefe ),                           
+    CONSTRAINT fk_usuario_privilegio FOREIGN KEY ( idprivilegio ) REFERENCES privilegio ( idprivilegio ),   
+    CONSTRAINT fk_usuario_estado FOREIGN KEY ( idestado ) REFERENCES estado ( idestado )
+);
+
+
+-- ==========================================================
+--  Tabla documento
+-- ==========================================================
+
+CREATE TABLE documento (
+    iddocumento     INT NOT NULL,                         
+    numero          VARCHAR2(11) NOT NULL,                 
+    asunto          VARCHAR2(254) NOT NULL,                    
+    fecha           DATE NOT NULL,                                                
+    archivo         VARCHAR2(200) NOT NULL,                   
+    ruta            VARCHAR2(254) NOT NULL,                   
+    idtipodocumento INT NOT NULL,                              
+    idarchivo       INT NOT NULL,                                                               
+    idusuario       INT NOT NULL,   
+    estado          CHAR(1) NOT NULL,
+    fecmodificacion DATE,                             
+    fecregistro     DATE NOT NULL,                                   
+    CONSTRAINT pk_documento PRIMARY KEY ( iddocumento ),
+    CONSTRAINT fk_documento_tipodocumento FOREIGN KEY ( idtipodocumento ) REFERENCES tipodocumento ( idtipodocumento ),
+    CONSTRAINT fk_documento_tipoarchivo FOREIGN KEY ( idarchivo ) REFERENCES tipoarchivo ( idarchivo ),
+    CONSTRAINT fk_documento_usuario FOREIGN KEY ( idusuario ) REFERENCES usuario ( idusuario )
+);
+
+
+
+
+-- ==========================================================
+--  Tabla tipodocumento
+-- ==========================================================
+
+insert into tipodocumento values(1,'ACTA');
+insert into tipodocumento values(2,'ANEXO');
+insert into tipodocumento values(3,'BOLETA DE VENTA');
+insert into tipodocumento values(4,'CARGO');
+insert into tipodocumento values(5,'CARTA');
+insert into tipodocumento values(6,'CERTIFICADO');
+insert into tipodocumento values(7,'CONSTANCIA');
+insert into tipodocumento values(8,'COTIZACION');
+insert into tipodocumento values(9,'DECRETO');
+insert into tipodocumento values(10,'DICTAMEN');
+insert into tipodocumento values(11,'DIRECTIVA');
+insert into tipodocumento values(12,'ESTADO DE CUENTA');
+insert into tipodocumento values(13,'FACTURA DE VENTA');
+insert into tipodocumento values(14,'FAX');
+insert into tipodocumento values(15,'HOJA DE TRAMITE');
+insert into tipodocumento values(16,'INFORME');
+insert into tipodocumento values(17,'MEMORANDUM');
+insert into tipodocumento values(18,'NORMAS LEGALES');
+insert into tipodocumento values(19,'NOTIFICACION JUDICIAL');
+insert into tipodocumento values(20,'OFICIO');
+insert into tipodocumento values(21,'ORDEN DE PEDIDO');
+insert into tipodocumento values(22,'PRESUPUESTO');
+insert into tipodocumento values(23,'RESOLUCION COACTIVA');
+insert into tipodocumento values(24,'SOLICITUD');
+
+
+SELECT * FROM tipodocumento
+-- ==========================================================
+--  Tabla tipoarchivo
+-- ==========================================================
+
+insert into tipoarchivo values(1,'Archivo Central');
+insert into tipoarchivo values(2,'Archivo Sectorial');
+insert into tipoarchivo values(3,'Archivo Periférico');
+insert into tipoarchivo values(4,'Archivo Intermedio');
+insert into tipoarchivo values(5,'Ninguno');
+
+SELECT * FROM tipoarchivo
+
+-- ==========================================================
+--  Tabla area
+-- ==========================================================
+
+insert into area values(1,'ADMINISTRATIVO'); 
+insert into area values(2,'CONTABILIDAD');
+insert into area values(3,'FINANZAS');
+insert into area values(4,'GERENCIA');
+insert into area values(5,'LEGAL');
+insert into area values(6,'PRODUCCION');
+insert into area values(7,'SISTEMAS');
+
+SELECT * FROM area
+
+-- ==========================================================
+--  Tabla estado
+-- ==========================================================
+
+insert into estado values(1,'Activo'); 
+insert into estado values(0,'Inactivo');
+
+
+SELECT * FROM estado
+-- ==========================================================
+--  Tabla jefe
+-- ==========================================================
+
+insert into jefe values(42264899 ,'Gose Manuani Leonidas');
+insert into jefe values(44936062,'Martinez Poma Carlos');
+insert into jefe values(43830345,'Carrasco Velazques Juliet');
+
+SELECT * FROM jefe
+
+-- ==========================================================
+--  Tabla privilegio
+-- ==========================================================
+
+insert into privilegio values(1,'Administrador');
+insert into privilegio values(2,'Supervisor'); 
+insert into privilegio values(3,'Operador');  
+insert into privilegio values(4,'Usuario');
+
+
+SELECT * FROM privilegio
+-- ==========================================================
+--  Tabla usuario
+-- ==========================================================
+
+INSERT INTO usuario VALUES (1,'rhuirse','123','Huirse Torres, Rosa','rhuirse@gmail.com',7,42264899,1,1, TO_DATE('2018/11/10 12:00:00', 'yyyy/mm/dd hh:mi:ss'), TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'));
+INSERT INTO usuario VALUES (2,'jaragon','1234','Aragon Alvarez, Jorge','jaragon@gmail.com',1,44936062,3,0, TO_DATE('2018/11/10 12:00:00', 'yyyy/mm/dd hh:mi:ss'), TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'));
+INSERT INTO usuario VALUES (3,'dmuñoz','123456','Muñoz Saldaña, Diana','dmuñoz@egmail.com',2,43830345,4,1, TO_DATE('2018/11/10 12:00:00', 'yyyy/mm/dd hh:mi:ss'), TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'));
+
+SELECT * FROM usuario
+
+-- ==========================================================
+--  Tabla documento
+-- ==========================================================
+
+INSERT INTO documento VALUES (1,'001-005482','Compra de Lectora externa Toshiba',TO_DATE('2017/07/03 10:00:00', 'yyyy/mm/dd hh:mi:ss'),'Boleta.pdf','C:\Documents\Sistema\Archive\Boleta.pdf',1,1,1,0,TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'),TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'));
+INSERT INTO documento VALUES (2,'001-036639','Compra de un Servidor HP',TO_DATE('2016/02/11 10:00:00', 'yyyy/mm/dd hh:mi:ss'),'Factura.doc','C:\Documents\Sistema\Archive\Factura.doc',2,2,2,1,TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'),TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'));
+INSERT INTO documento VALUES (3,'0002490','Acta de Presentación y Apaertura de Presupuesto',TO_DATE('2015/05/19 10:00:00', 'yyyy/mm/dd hh:mi:ss'),'Acta.xlx','C:\Documents\Sistema\Archive\Acta.xlx',3,3,2,1,TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'),TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'));
+INSERT INTO documento VALUES (4,'0002283','Norma para el proceso de planamiento integral',TO_DATE('2014/08/01 10:00:00', 'yyyy/mm/dd hh:mi:ss'),'Norma.doc','C:\Documents\Sistema\Archive\Norma.doc',4,4,3,1,TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'),TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'));
+INSERT INTO documento VALUES (5,'0001676','Reunion sobre Acreditación de Capacitación',TO_DATE('2013/04/04 10:00:00', 'yyyy/mm/dd hh:mi:ss'),'Reunion.doc','C:\Documents\Sistema\Archive\Reunion.doc',5,5,3,1,TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'),TO_DATE('2018/11/09 10:00:00', 'yyyy/mm/dd hh:mi:ss'));
+
+
+
+SELECT * FROM DOCUMENTO
+
+
+
+--=============================
+-- CREACION DE PAQUETE
+--=============================
+
+CREATE OR REPLACE PACKAGE DOCUMENTOS.PKG_DOCUMENT IS
+END PKG_DOCUMENT;
+
+
+CREATE OR REPLACE PACKAGE BODY DOCUMENTOS.PKG_DOCUMENT IS
+END;
+
+
+
+CREATE OR REPLACE PACKAGE DOCUMENTOS.PKG_DOCUMENT IS
+
+PROCEDURE SP_LISTAR_DOCUMENTOS
+(
+I_NUMERO DOCUMENTO.NUMERO%TYPE,
+I_ASUNTO DOCUMENTO.ASUNTO%TYPE,
+I_FECHA VARCHAR2 DEFAULT NULL,
+I_SALIDA OUT SYS_REFCURSOR
+);
+
+END PKG_DOCUMENT;
+
+
+
+CREATE OR REPLACE PACKAGE BODY DOCUMENTOS.PKG_DOCUMENT IS
+
+PROCEDURE SP_LISTAR_DOCUMENTOS
+(
+I_NUMERO DOCUMENTO.NUMERO%TYPE,
+I_ASUNTO DOCUMENTO.ASUNTO%TYPE,
+I_FECHA VARCHAR2 DEFAULT NULL,
+I_SALIDA OUT SYS_REFCURSOR
+)
+AS
+cCondicion VARCHAR2(4000) :=NULL;
+cConsulta01 VARCHAR2(4000);
+BEGIN
+    IF I_NUMERO IS NOT NULL THEN
+        cCondicion := cCondicion || 'AND NUMERO= '''|| I_NUMERO ||''' ';
+    END IF;
+    IF I_ASUNTO IS NOT NULL THEN
+        cCondicion := cCondicion || 'AND ASUNTO= '''|| I_ASUNTO ||''' ';
+    END IF;
+    IF I_FECHA IS NOT NULL THEN
+        cCondicion := 'AND FECHA= TO_DATE('''|| I_FECHA ||''') ';
+    END IF;
+
+ cConsulta01 := 'SELECT * FROM DOCUMENTO WHERE estado=''1'' '|| cCondicion ||' '||' ORDER BY TO_DATE(FECHA) '; 
+
+ OPEN I_SALIDA FOR
+    cConsulta01;
+    --    dbms_output.put_line(cConsulta01);
+END; 
+
+END;
+
+
+
+
+--1) crear esquema DOCUMENTOS
+--2) crear tablas
+--3) insertar datos
+--4) crear paquetes
+--5) crear procedientos almacenados
+
+
+SET SERVEROUTPUT ON;
+DECLARE
+   cur_var SYS_REFCURSOR;
+   
+   w_numero documento.numero%TYPE;
+   w_asunto documento.asunto%TYPE;
+BEGIN
+   OPEN cur_var FOR
+     SELECT numero,asunto FROM documento
+     WHERE idusuario=1;
+   FETCH cur_var INTO  w_numero, w_asunto;
+   CLOSE cur_var;
+   --DBMS_OUTPUT.PUT_LINE(w_numero ||' '||w_asunto);
+   DBMS_OUTPUT.PUT_LINE('NUMERO: ' || w_numero);
+   DBMS_OUTPUT.PUT_LINE('ASUNTO: ' || w_asunto);
+--EXCEPTION
+   --WHEN NO_DATA_FOUND THEN
+   --DBMS_OUTPUT.PUT_LINE('CODIGO NO EXISTE.');
+END; 
+/
+
+select *from DOCUMENTO;
+
+--////////////////////////////////////////////LISTAR//////////////////////////
+
+CREATE OR REPLACE PROCEDURE prueba50(w_numero documento.numero%TYPE)
+                                     --w_archivo documento.archivo%TYPE,
+                                     --cur_var SYS_REFCURSOR)
+IS
+  w_asunto documento.asunto%TYPE;
+  w_archivo documento.archivo%TYPE;
+  w_fecha documento.fecha%TYPE;
+BEGIN
+  SELECT asunto,archivo,fecha into w_asunto,w_archivo,w_fecha
+   FROM documento
+   WHERE numero=w_numero;
+   --DBMS_OUTPUT.PUT_LINE(w_numero ||' '||w_asunto);
+  DBMS_OUTPUT.PUT_LINE('ASUNTO: ' || w_asunto);
+  DBMS_OUTPUT.PUT_LINE('ARCHIVO: ' || w_archivo);
+  DBMS_OUTPUT.PUT_LINE('FECHA: ' || w_fecha);
+EXCEPTION
+   WHEN NO_DATA_FOUND THEN
+   DBMS_OUTPUT.PUT_LINE('CODIGO NO EXISTE.');
+END;
+
+
+BEGIN
+  DOCUMENTOS.prueba50('0002490');
+END;
+
+--SELECT * FROM documento;
+
+--//////////////////////////////////////////////UPDATE////////////////////////////
+
+CREATE OR REPLACE PROCEDURE prueba20(w_iddocumento int)
+IS
+BEGIN
+	UPDATE documento
+		SET fecha = sysdate
+		WHERE iddocumento = w_iddocumento;
+	IF SQL%NOTFOUND THEN
+		DBMS_OUTPUT.PUT_LINE('CODIGO NO EXISTE');  --NO EXISTE
+	ELSE
+		COMMIT;
+		DBMS_OUTPUT.PUT_LINE('PROCESO OK');
+	END IF;
+END;
+
+
+BEGIN
+	DOCUMENTOS.prueba20 (10);
+END;
+
+--SELECT * FROM documento;
+
+--////////////////////////////////////////////INSERT/////////////////////////
+
+
+CREATE OR REPLACE PROCEDURE prueba30(w_idarea int, w_nombre varchar2)
+IS 
+BEGIN
+   INSERT INTO area VALUES(w_idarea,w_nombre);
+   COMMIT;
+   DBMS_OUTPUT.PUT_LINE('PROCESO OK');
+END;
+
+
+BEGIN
+  DOCUMENTOS.prueba30 (8,'PRUEBA');
+END;
+
+--select * from area;
+
+--///////////////////////////////////////////DELETE/////////////////////////
+
+CREATE OR REPLACE PROCEDURE prueba40(w_idarea int)
+IS 
+  cont int;
+BEGIN
+  SELECT COUNT(*) INTO cont FROM area WHERE idarea=w_idarea;
+  IF cont = 0 THEN
+     DBMS_OUTPUT.PUT_LINE('NO EXISTE');   --CODIGO NO EXISTE  = NO HAY DATOS
+     RETURN;
+  END IF;
+  DELETE FROM area WHERE idarea=w_idarea;
+  COMMIT;
+  DBMS_OUTPUT.PUT_LINE('PROCESO OK');
+END;
+
+
+BEGIN
+  DOCUMENTOS.prueba40 (8);
+END;
+
+--select * from area;

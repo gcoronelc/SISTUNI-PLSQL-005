@@ -1,0 +1,141 @@
+
+
+--------------------------------------------------------
+--  DDL for Table CATALOGO
+--------------------------------------------------------
+CREATE TABLE CATALOGO
+(
+TIPO_ITEM VARCHAR2(10),
+CODIGO_ITEM VARCHAR2(12),
+NOMBRE_ITEM VARCHAR2(150),
+UNIDAD_MEDIDA NUMBER(3,0),
+PRECIO_UNIT NUMBER(16,6)
+);
+
+
+CREATE TABLE CUSTOMER (  
+NAME VARCHAR2(20),   
+GENDER VARCHAR2(7),   
+ADDRESS VARCHAR2(100)); 
+
+--------------------------------------------------------
+--  SP INSERT CATALOGO
+--------------------------------------------------------
+
+
+CREATE OR REPLACE PROCEDURE CN.PR_INSERT_CATALOGO
+(
+p_tipo CATALOGO.TIPO_ITEM%TYPE,
+p_codigo CATALOGO.CODIGO_ITEM%TYPE,
+p_precio CATALOGO.PRECIO_UNIT%TYPE,
+p_nombre CATALOGO.NOMBRE_ITEM%TYPE,
+p_medida CATALOGO.UNIDAD_MEDIDA%TYPE
+)
+IS
+	BEGIN  
+	INSERT INTO CATALOGO (TIPO_ITEM, CODIGO_ITEM, NOMBRE_ITEM, UNIDAD_MEDIDA, PRECIO_UNIT)  
+				VALUES (p_tipo, p_codigo, p_nombre, p_medida, p_precio);  
+	COMMIT;  
+END;  
+/  
+
+
+
+BEGIN
+	CN.PR_INSERT_CATALOGO ('2', '1223', 33, 'mss', 13);
+END;
+
+SELECT * FROM CN.CATALOGO
+
+
+--------------------------------------------------------
+--  SP UPDATE CATALOGO
+--------------------------------------------------------
+
+
+CREATE OR REPLACE PROCEDURE CN.PR_UPDATE_CATALOGO
+(
+p_tipo IN CATALOGO.TIPO_ITEM%TYPE,
+p_codigo IN CATALOGO.CODIGO_ITEM%TYPE,
+p_precio IN CATALOGO.PRECIO_UNIT%TYPE,
+p_nombre IN CATALOGO.NOMBRE_ITEM%TYPE,
+p_medida IN CATALOGO.UNIDAD_MEDIDA%TYPE
+)
+IS
+BEGIN  
+	UPDATE 	CATALOGO  SET
+		TIPO_ITEM=p_tipo, 
+		CODIGO_ITEM=p_codigo, 
+		NOMBRE_ITEM=p_nombre, 
+		UNIDAD_MEDIDA=p_medida, 
+		PRECIO_UNIT=p_precio
+	WHERE CATALOGO.TIPO_ITEM=p_tipo;
+COMMIT;  
+END;  
+/  
+
+
+BEGIN
+	CN.PR_UPDATE_CATALOGO2 ('1', '234', 15, 'LOPEZ', 54);
+END;
+
+
+SELECT * FROM CN.CATALOGO
+
+
+--------------------------------------------------------
+--  SP SELECT CATALOGO
+--------------------------------------------------------
+
+
+CREATE OR REPLACE PROCEDURE CN.PR_SELECT_CATALOGO
+(
+p_tipo IN CATALOGO.TIPO_ITEM%TYPE,
+P_catalogo OUT SYS_REFCURSOR )
+	IS
+	BEGIN  
+	OPEN 
+		P_catalogo FOR SELECT CATALOGO.TIPO_ITEM, CATALOGO.CODIGO_ITEM, CATALOGO.NOMBRE_ITEM, CATALOGO.UNIDAD_MEDIDA, CATALOGO.PRECIO_UNIT 
+			FROM CATALOGO WHERE CATALOGO.TIPO_ITEM=p_tipo;
+END;  
+/  
+
+
+
+BEGIN
+	CN.PR_SELECT_CATALOGO ('1', :p_catalogo$REFCURSOR);
+END;
+
+
+SELECT * FROM CN.CATALOGO
+
+
+--------------------------------------------------------
+--  SP DELETE CATALOGO
+--------------------------------------------------------
+
+
+CREATE OR REPLACE PROCEDURE CN.PR_DELETE_CATALOGO
+(P_TIPO CATALOGO.TIPO_ITEM%TYPE) AS
+      INVALID_TIPO EXCEPTION;
+BEGIN
+      DELETE FROM CATALOGO
+      WHERE TIPO_ITEM=P_TIPO;
+      IF SQL%NOTFOUND OR SQL%ROWCOUNT=0 THEN
+            ROLLBACK;
+            RAISE INVALID_TIPO;
+      END IF;
+      COMMIT;
+EXCEPTION
+      WHEN INVALID_TIPO THEN
+            RAISE_APPLICATION_ERROR(-20001, 'EL CATALOGO NO EXISTE');
+      WHEN OTHERS THEN
+            RAISE_APPLICATION_ERROR(-20011, SQLERRM);
+END;
+
+
+BEGIN
+	CN.PR_DELETE_CATALOGO ('1');
+END;
+SELECT * FROM CN.CATALOGO
+

@@ -6,7 +6,7 @@ create or replace package scott.util is
 
   type gencur is ref cursor;
 
-  function f_emp_x_dep( v_deptno number ) return gencur;
+  function f_emp_x_dep( p_deptno number ) return gencur;
 
 end util;
 /
@@ -16,16 +16,17 @@ end util;
 -- =======================================================
 create or replace package body scott.util as
 
-  function f_emp_x_dep( v_deptno number ) return gencur
+  function f_emp_x_dep( p_deptno number ) return gencur
   is
     v_returncursor gencur;
     v_select varchar(500);
   begin
     
-    v_select := 'select * from scott.emp where deptno = ' || to_char(v_deptno );
+    v_select := 'select * from scott.emp where deptno = :CODIGO';
     
     open v_returncursor 
-    for v_select;
+    for v_select
+    USING p_deptno;
     
     return v_returncursor;
     
